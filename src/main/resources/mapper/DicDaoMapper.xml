@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qds.eurekaclientprovider.dicManage.dao.DicDaoMapper">
+
+    <!--根据groupCode和dicCode获取数据-->
+    <select id="getDicInfo" resultType="java.util.Map">
+        SELECT
+            table_name.id,
+            table_name.dicCode,
+            table_name.dicName,
+            table_name.groupCode,
+            table_name.groupName
+            FROM
+            table_name
+            <where>
+                <if test="groupCode != null and groupCode != ''">
+                    and table_name.groupCode = #{groupCode}
+                </if>
+                <if test="dicCode != null and dicCode != ''">
+                    and table_name.dicCode = #{dicCode}
+                </if>
+            </where>
+            ORDER BY
+            table_name.dicCode ASC
+    </select>
+
+    <!--获取所有groupCode-->
+    <select id="getAllGroupCode" resultType="java.lang.String">
+        SELECT
+            table_name.groupCode
+        FROM
+            table_name
+    </select>
+
+    <!--删除某groupCode下所有的数据-->
+    <delete id="deleteByGroupCode" >
+        DELETE
+        FROM
+          table_name
+        WHERE
+          table_name.groupCode = #{groupCode};
+    </delete>
+
+    <!--批量插入数据-->
+    <insert id="insertDicInfo" parameterType="java.util.List">
+        INSERT INTO
+          table_name (id, groupCode, groupName, dicCode, dicName)
+        VALUES
+        <foreach collection="dicInfoList" item="dicInfo" index="index" separator=",">
+            (
+                #{dicInfo.id,jdbcType=VARCHAR},
+                #{dicInfo.groupCode,jdbcType=VARCHAR},
+                #{dicInfo.groupName,jdbcType=VARCHAR},
+                #{dicInfo.dicCode,jdbcType=VARCHAR},
+                #{dicInfo.dicName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <!--<select id="findbyid" parameterType="Integer" resultMap="StudentResult">-->
+    <!--select *from student where id=#{id}-->
+    <!--</select>-->
+
+    <!--<select id="findbygradeid" parameterType="Integer" resultMap="StudentResult">-->
+    <!--select *from student where gid=#{gid}-->
+    <!--</select>-->
+
+    <!--<resultMap type="Student" id="StudentResult">-->
+    <!--<id property="id" column="id"/>-->
+    <!--<result property="name" column="name"/>-->
+    <!--<result property="age" column="age"/>-->
+    <!--<association property="address" column="addid" select="com.qbd.mapper.AddressMappers.findbyid">-->
+    <!--</association>-->
+    <!--<association property="grade" column="gid" select="com.qbd.mapper.GradeMappers.findbyid">-->
+    <!--</association>-->
+    <!--</resultMap>-->
+</mapper>
