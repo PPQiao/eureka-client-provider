@@ -10,7 +10,7 @@
 
 id|groudCode|groudName|dicCode|dicName
 :-:|:-:|:-:|:-:|:-:
-8f3e1c3642ed4cd9a58e0c2b5d864d8d|color|颜色|0|<font color=#DC143C>红色</font>|
+8f3e1c3642ed4cd9a58e0c2b5d864d8d|color|颜色|0|<font color=#FF0000 >红色</font>|
 
 建表语句:
 ```
