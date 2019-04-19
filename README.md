@@ -1,2 +1,4 @@
 # eureka-client-provider
 标准代码服务所在项目
+为springboot项目,也集成了springCloud,注册中心是eureka,因此运行此项目必须先运行eureka-server
+由于数据库是连的我本地的,所以数据库配置请也修改为你自己的数据库
