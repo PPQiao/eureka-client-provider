@@ -1,7 +1,8 @@
 # eureka-client-provider
 **标准代码服务所在项目**
 -----
-- 此项目是`springboot`项目,也集成了`springCloud`,注册中心是`eureka`,因此运行此项目必须先运行`eureka-server`
+- 此项目是`springboot`项目,也集成了`springCloud`,注册中心是`eureka`,因此运行此项目必须先运行`eureka-server`项 目:`https://github.com/PPQiao/eureka-server.git`
+  
 - 由于**数据库**是连的我本地的,所以**数据库配置**请也修改为你自己的数据库配置
 - 目前就一张表,表名是`table_name`
 -----
@@ -9,7 +10,7 @@
 
 id|groudCode|groudName|dicCode|dicName
 :-:|:-:|:-:|:-:|:-:
-8f3e1c3642ed4cd9a58e0c2b5d864d8d|color|颜色|0|红色|
+8f3e1c3642ed4cd9a58e0c2b5d864d8d|color|颜色|0|<font color=#DC143C>红色</font>|
 
 建表语句:
 ```
