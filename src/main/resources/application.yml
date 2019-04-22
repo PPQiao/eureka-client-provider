@@ -6,9 +6,9 @@ spring:
 #数据源
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#   url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 #    106.13.41.237 王冲百度云
-#    url: jdbc:mysql://106.13.41.237:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://106.12.43.192:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
 #    password: 111111
     # 使用druid数据源
@@ -26,7 +26,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
-#       106.13.41.237
-#      defaultZone: http://106.13.41.237:8761/eureka/
+#     defaultZone: http://localhost:8761/eureka/
+#       106.13.41.237王冲的百度云
+      defaultZone: http://106.13.41.237:8761/eureka/
 
