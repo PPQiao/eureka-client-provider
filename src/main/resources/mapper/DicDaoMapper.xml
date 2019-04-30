@@ -50,7 +50,7 @@
         VALUES
         <foreach collection="dicInfoList" item="dicInfo" index="index" separator=",">
             (
-                #{dicInfo.id,jdbcType=VARCHAR},
+                SELECT REPLACE(UUID(), '-', ''),
                 #{dicInfo.groupCode,jdbcType=VARCHAR},
                 #{dicInfo.groupName,jdbcType=VARCHAR},
                 #{dicInfo.dicCode,jdbcType=VARCHAR},

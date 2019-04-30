@@ -1,15 +1,11 @@
 package com.qds.eurekaclientprovider.dicManage.controller;
 
 import com.qds.eurekaclientprovider.dicManage.Service.DicService;
-import com.qds.eurekaclientprovider.dicManage.bean.DicInfo;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +17,7 @@ import java.util.Map;
 */
 @Controller
 @RequestMapping("/Dic")
+@Api(value = "DicController",description = "管理字典表")
 public class DicController {
 
     @Autowired
@@ -31,8 +28,17 @@ public class DicController {
     * 根据组code和字段code 查询具体某个code的codeName
     *
     */
-    @RequestMapping("/getDicInfo")
+    @RequestMapping(value = "/getDicInfo",method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation(value = "根据groupCode和dicCode获取指定的dicName")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query",name="groupCode",dataType="String",required=true,value="组名",defaultValue="color"),// 每个参数的类型，名称，数据类型，是否校验，描述，默认值(这些在界面上有展示)
+            @ApiImplicitParam(paramType="query",name="dicCode",dataType="String",required=true,value="字段代码",defaultValue="0")
+    })
+    @ApiResponses({
+            @ApiResponse(code=400,message="请求参数没填好"), // 响应对应编码的描述
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+    })
     public String getDicInfo(@RequestParam String groupCode, @RequestParam String dicCode){
 //        System.out.println("groupCode=" + groupCode);
 //        System.out.println("dicCode=" + dicCode);
@@ -58,9 +64,14 @@ public class DicController {
     *     应用场景: 页面上的下拉菜单
     *     @Param : String groupCode; 若有多个则用","拼接
     */
-    @RequestMapping("/getDicInfoByGroupCodes")
+    @ApiOperation(value = "根据组名获取改组下所有字段信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query",name="groupCodes",dataType="String",required=true,value="组名代码,如果有多个,用','拼接")
+    })
+    @RequestMapping(value = "/getDicInfoByGroupCodes",method = RequestMethod.POST)
     @ResponseBody
-    public Map getDicInfoByGroupCodes(@RequestParam String groupCodes){
+    public Map getDicInfoByGroupCodes(@RequestParam("groupCodes") String groupCodes){
+//        String groupCodes = (String)requestMap.get("groupCodes");
         //最终返回值
         HashMap resultMap = new HashMap();
         if(groupCodes != null && !groupCodes.isEmpty()){
@@ -96,7 +107,8 @@ public class DicController {
     /*
     *   可视化页面的全查询
     */
-    @RequestMapping("/getAllDicInfo")
+    @ApiOperation(value = "表全查")
+    @RequestMapping(value = "/getAllDicInfo",method = RequestMethod.POST)
     @ResponseBody
     public Map getAllDicInfo(){
         HashMap resultMap = new HashMap();
@@ -106,7 +118,8 @@ public class DicController {
             if(groupCodeList != null && groupCodeList.size() > 0)
             for (String groupCode:groupCodeList) {
                 List<Map> dicInfo = dicService.getDicInfo(groupCode, "");
-                dicMap.put(groupCode,dicInfo);
+                String groupCodeAndName = groupCode +"|"+ dicInfo.get(0).get("groupName");
+                dicMap.put(groupCodeAndName,dicInfo);
             }
             resultMap.put("resultStatus","success");
             resultMap.put("resultData",dicMap);
@@ -124,7 +137,11 @@ public class DicController {
     /*
     *   插入或修改(默认删掉所有的然后按照页面上的数据重新插入)
     */
-    @RequestMapping("/updateDicInfo")
+    @ApiOperation(value = "更新页面数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query",name="requestMap",dataType="json/text",required=true,value="该组名及对应组下的数据")
+    })
+    @RequestMapping(value = "/updateDicInfo",method = RequestMethod.POST)
     @ResponseBody
     @Transactional
     public Map updateDicInfo(@RequestBody HashMap requestMap){
